@@ -26,6 +26,62 @@
         </div>
     </nav>
 
+    <main class="container">
+        <section class="grid grid-4">
+            <div class="card stat">
+                <p class="muted">Total Applications</p>
+                <h2 id="totalAppss" class="stat_value">0</h2>
+            </div>
+            <div class="card stat">
+                <p class="muted">Applied</p>
+                <h2 id="appliedCount" class="stat_value">0</h2>
+            </div>
+            <div class="card stat">
+                <p class="muted">Interviews</p>
+                <h2 id="interviewCount" class="stat_value">0</h2>
+            </div>
+            <div class="card stat">
+                <p class="muted">Offers</p>
+                <h2 id="offerCount" class="stat_value">0</h2>
+            </div>
+
+        </section>
+        <section class="grid grid-2 mt-16">
+            <div class="card">
+                <div class="card_header">
+                    <h3>Recent Applications</h3>
+                    <a style="text-decoration: none;" href="applications.html" class="btn btn--ghost">View All</a>
+                </div>
+                <div id="recentList" class="list">
+
+                </div>
+            </div>
+            <div class="card">
+                <div class="card_header">
+                    <h3>Progress</h3>
+                    <button id="seedBtn" class="btn btn--primary">Add Sample Data</button>
+                </div>
+                <div class="progressBox">
+                    <div class="progressRow">
+                        <p class="muted">Rejected</p>
+                        <p id="rejectedCount" class="badge badge--danger">0</p>
+                    </div>
+                    <div class="progressRow">
+                        <p class="muted">Success Rate</p>
+                        <p id="successRate" class="badge badge--success">0%</p>
+                    </div>
+                    <div class="divider"></div>
+                    <p class="muted">Your goal is not "apply everywhere".
+                        Your goal is **apply smart,track hard,improve fast**.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="toast" class="toast hidden"></div>
+    <script src="js/storage.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/dashboard.js"></script>
 </body>
 
 </html>
