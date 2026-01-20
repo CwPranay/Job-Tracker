@@ -11,12 +11,13 @@ function toast(message) {
     }, 2200)
 
 }
-function generateId(){
+function generateId() {
     return "job_" + Date.now()
 }
 
-function formatDate(dateStr){
-    if(!dateStr) return "N/A"
+function formatDate(dateStr) {
+    if (!dateStr) return "N/A"
     const d = new Date(dateStr)
     return d.toLocaleDateString()
 }
+
