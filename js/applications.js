@@ -1,4 +1,9 @@
 const openModalBtn = document.getElementById("openModalBtn")
+const deleteModal = document.getElementById("deleteModal");
+const closeDeleteModalBtn = document.getElementById("closeDeleteModalBtn");
+const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
+const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+const deleteText = document.getElementById("deleteText");
 const closeModalBtn = document.getElementById("closeModalBtn")
 const cancelBtn = document.getElementById("cancelBtn")
 const modal = document.getElementById("modal")
@@ -31,7 +36,39 @@ function openModal(mode = "add") {
         jobForm.reset()
         statusInput.value = "Applied"
     }
+
 }
+
+let deleteTargetId = null;
+
+function openDeleteModal(job) {
+    deleteTargetId = job.id;
+
+    deleteText.innerHTML = `Delete <b>${job.company}</b> • <b>${job.role}</b> ?`;
+    deleteModal.classList.remove("hidden");
+}
+
+function closeDeleteModal(){
+    deleteTargetId=null;
+    deleteModal.classList.add("hidden")
+}
+
+closeDeleteModalBtn.addEventListener("click",closeDeleteModal)
+cancelDeleteBtn.addEventListener("click",closeDeleteModal)
+
+deleteModal.addEventListener("click",(e)=>{
+    if(e.target===deleteModal) closeDeleteModal()
+})
+
+confirmDeleteBtn.addEventListener("click",()=>{
+    if(!deleteTargetId) return;
+
+    const jobs = getjobs().filter((j)=>j.id!==deleteTargetId);
+    saveJobs(jobs);
+    toast("Deleted")
+    closeDeleteModal()
+    renderJobs()
+})
 
 function closeModal() {
     modal.classList.add("hidden")
@@ -135,29 +172,27 @@ function getFormData() {
 }
 
 function validateForm(data) {
-  if (!data.company) return "Company is required";
-  if (!data.role) return "Role is required";
-  if (!data.status) return "Status is required";
-  return "";
+    if (!data.company) return "Company is required";
+    if (!data.role) return "Role is required";
+    if (!data.status) return "Status is required";
+    return "";
 }
 
-function addNewJob(data){
-    const newJob={
-        id:generateId(),
+function addNewJob(data) {
+    const newJob = {
+        id: generateId(),
         ...data,
-        createdAt:Date.now()
+        createdAt: Date.now()
     }
 
     addJob(newJob);
     toast("Application added")
 }
 
-function updateJob(id,data)
-{
-    const jobs=getJobs().map((j)=>{
-        if(j.id===id)
-        {
-            return {...j,...data}
+function updateJob(id, data) {
+    const jobs = getjobs().map((j) => {
+        if (j.id === id) {
+            return { ...j, ...data }
         }
         return j
     })
@@ -166,67 +201,63 @@ function updateJob(id,data)
     toast("Application updated")
 }
 
-jobForm.addEventListener("submit",(e)=>{
+jobForm.addEventListener("submit", (e) => {
     e.preventDefault()
-    const data =getFormData()
-    const error=validateForm(data)
+    const data = getFormData()
+    const error = validateForm(data)
 
-    if(error)
-    {
+    if (error) {
         toast(error)
         return;
     }
 
     const id = jobIdInput.value
 
-    if(id)
-    {
-        updateJob(id,data)
+    if (id) {
+        updateJob(id, data)
     }
-    else{
+    else {
         addNewJob(data)
     }
     closeModal()
     renderJobs()
 })
 
-jobsTbody.addEventListener("click",(e)=>{
+jobsTbody.addEventListener("click", (e) => {
     const btn = e.target.closest("button")
-    if(!btn) return ;
-    
+    if (!btn) return;
+
     const action = btn.dataset.action
     const id = btn.dataset.id
 
-    if(!action || !id) return;
+    if (!action || !id) return;
 
-    if(action ==="delete")
-    {
-        const  ok = confirm("Delete this application?")
-        if(!ok) return;
+    if (action === "delete") {
+        
 
-        const jobs=getjobs().filter((j)=>j.id !==id)
-        saveJobs(jobs)
-        toast("Deleted")
-        renderJobs()
+        const job = getjobs().find((j) => j.id === id)
+        if(!job) return
+        openDeleteModal(job)
+        
     }
 
-      if (action === "edit") {
-    const job = getJobs().find((j) => j.id === id);
-    if (!job) return;
+    if (action === "edit") {
+        const job = getjobs().find((j) => j.id === id);
+        if (!job) return;
 
-    modalTitle.textContent = "Edit Application";
-    jobIdInput.value = job.id;
+        modalTitle.textContent = "Edit Application";
+        jobIdInput.value = job.id;
 
-    companyInput.value = job.company || "";
-    roleInput.value = job.role || "";
-    statusInput.value = job.status || "Applied";
-    locationInput.value = job.location || "";
-    salaryInput.value = job.salary || "";
-    appliedDateInput.value = job.appliedDate || "";
-    notesInput.value = job.notes || "";
+        companyInput.value = job.company || "";
+        roleInput.value = job.role || "";
+        statusInput.value = job.status || "Applied";
+        locationInput.value = job.location || "";
+        salaryInput.value = job.salary || "";
+        appliedDateInput.value = job.appliedDate || "";
+        notesInput.value = job.notes || "";
 
-    modal.classList.remove("hidden");
-  }
+        modal.classList.remove("hidden");
+    }
 })
 searchInput.addEventListener("input", renderJobs);
 statusFilter.addEventListener("change", renderJobs);

@@ -5,7 +5,7 @@ function countByStatus(jobs, status) {
 }
 
 function renderStats() {
-    const jobs = getJobs()
+    const jobs = getjobs()
     const total = jobs.length;
     const applied = countByStatus(jobs, "Applied")
     const interview = countByStatus(jobs, "Interview")
@@ -23,7 +23,7 @@ function renderStats() {
 }
 
 function renderRecent() {
-    const jobs = getJobs().slice(0, 6)
+    const jobs = getjobs().slice(0, 6)
     const box = document.getElementById("recentList")
 
     box.innerHTML = ""
@@ -49,7 +49,7 @@ function renderRecent() {
 }
 
 function seedSampleData() {
-    const existing = getJobs()
+    const existing = getjobs()
     if (existing.length > 0) {
         toast("You already have data!!");
         return;
