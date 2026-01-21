@@ -11,8 +11,9 @@ function toast(message) {
     }, 2200)
 
 }
+
 function generateId() {
-    return "job_" + Date.now()
+    return "job_" + Date.now() + "_" + Math.random().toString(16).slice(2);
 }
 
 function formatDate(dateStr) {

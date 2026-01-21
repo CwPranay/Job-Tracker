@@ -1,6 +1,6 @@
 const STORAGE_KEY = "jt_jobs_v1"
 
-function getJobs() {
+function getjobs() {
     const raw = localStorage.getItem(STORAGE_KEY)
     return raw ? JSON.parse(raw) : [];
 }
