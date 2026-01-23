@@ -1,27 +1,15 @@
 const openModalBtn = document.getElementById("openModalBtn");
 
+const modal = document.getElementById("modal");
+const modalTitle = document.getElementById("modalTitle");
+const closeModalBtn = document.getElementById("closeModalBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+
 const deleteModal = document.getElementById("deleteModal");
+const deleteText = document.getElementById("deleteText");
 const closeDeleteModalBtn = document.getElementById("closeDeleteModalBtn");
 const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
 const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
-const deleteText = document.getElementById("deleteText");
-
-const closeModalBtn = document.getElementById("closeModalBtn");
-const cancelBtn = document.getElementById("cancelBtn");
-const modal = document.getElementById("modal");
-const modalTitle = document.getElementById("modalTitle");
-
-const statusBtn = document.getElementById("statusBtn");
-const statusMenu = document.getElementById("statusMenu");
-const statusValue = document.getElementById("statusValue");
-
-const modalStatusBtn = document.getElementById("modalStatusBtn");
-const modalStatusMenu = document.getElementById("modalStatusMenu");
-const modalStatusValue = document.getElementById("modalStatusValue");
-
-const sortBtn = document.getElementById("sortBtn");
-const sortMenu = document.getElementById("sortMenu");
-const sortValue = document.getElementById("sortValue");
 
 const jobForm = document.getElementById("jobForm");
 const jobIdInput = document.getElementById("jobId");
@@ -38,23 +26,10 @@ const jobsTbody = document.getElementById("jobsTbody");
 const emptyText = document.getElementById("emptyText");
 
 const searchInput = document.getElementById("searchInput");
-const statusByValue = document.getElementById("status");
+const statusByValue = document.getElementById("statusBy");
 const sortByValue = document.getElementById("sortBy");
 
 let deleteTargetId = null;
-
-function positionDropdown(btn, menu) {
-  const r = btn.getBoundingClientRect();
-  menu.style.width = r.width + "px";
-  menu.style.left = r.left + "px";
-  menu.style.top = r.bottom + 8 + "px";
-}
-
-function closeAllDropdowns() {
-  statusMenu.classList.add("hidden");
-  sortMenu.classList.add("hidden");
-  modalStatusMenu.classList.add("hidden");
-}
 
 function openModal(mode = "add") {
   modal.classList.remove("hidden");
@@ -64,13 +39,11 @@ function openModal(mode = "add") {
     jobIdInput.value = "";
     jobForm.reset();
     statusInput.value = "Applied";
-    if (modalStatusValue) modalStatusValue.textContent = "Applied";
   }
 }
 
 function closeModal() {
   modal.classList.add("hidden");
-  closeAllDropdowns();
 }
 
 function openDeleteModal(job) {
@@ -94,66 +67,6 @@ function getStatusBadgeClass(status) {
 
 function normalizeText(t) {
   return (t || "").toLowerCase().trim();
-}
-
-function getFilteredJobs() {
-  let jobs = getjobs();
-
-  const q = normalizeText(searchInput.value);
-  if (q) {
-    jobs = jobs.filter((j) => {
-      return normalizeText(j.company).includes(q) || normalizeText(j.role).includes(q);
-    });
-  }
-
-  const st = statusByValue.value;
-  if (st !== "All") {
-    jobs = jobs.filter((j) => j.status === st);
-  }
-
-  const sort = sortByValue.value;
-  if (sort === "newest") {
-    jobs.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-  } else if (sort === "oldest") {
-    jobs.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
-  } else if (sort === "company") {
-    jobs.sort((a, b) => (a.company || "").localeCompare(b.company || ""));
-  }
-
-  return jobs;
-}
-
-function renderJobs() {
-  const jobs = getFilteredJobs();
-
-  jobsTbody.innerHTML = "";
-
-  if (jobs.length === 0) {
-    emptyText.style.display = "block";
-    return;
-  } else {
-    emptyText.style.display = "none";
-  }
-
-  jobs.forEach((j) => {
-    const tr = document.createElement("tr");
-
-    tr.innerHTML = `
-      <td>${j.company}</td>
-      <td>${j.role}</td>
-      <td><span class="badge ${getStatusBadgeClass(j.status)}">${j.status}</span></td>
-      <td>${j.location || "-"}</td>
-      <td>${j.appliedDate ? formatDate(j.appliedDate) : "-"}</td>
-      <td class="right">
-        <div class="actions">
-          <button class="btn btn--ghost" data-action="edit" data-id="${j.id}">Edit</button>
-          <button class="btn btn--danger" data-action="delete" data-id="${j.id}">Delete</button>
-        </div>
-      </td>
-    `;
-
-    jobsTbody.appendChild(tr);
-  });
 }
 
 function getFormData() {
@@ -187,14 +100,73 @@ function addNewJob(data) {
 }
 
 function updateJob(id, data) {
-  const jobs = getjobs().map((j) => {
-    if (j.id === id) return { ...j, ...data };
-    return j;
-  });
-
+  const jobs = getjobs().map((j) => (j.id === id ? { ...j, ...data } : j));
   saveJobs(jobs);
   toast("Application updated ✅");
 }
+
+function getFilteredJobs() {
+  let jobs = getjobs();
+
+  const q = normalizeText(searchInput.value);
+  if (q) {
+    jobs = jobs.filter(
+      (j) =>
+        normalizeText(j.company).includes(q) ||
+        normalizeText(j.role).includes(q)
+    );
+  }
+
+  const st = statusByValue.value;
+  if (st !== "All") {
+    jobs = jobs.filter((j) => j.status === st);
+  }
+
+  const sort = sortByValue.value;
+  if (sort === "newest") {
+    jobs.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  } else if (sort === "oldest") {
+    jobs.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
+  } else if (sort === "company") {
+    jobs.sort((a, b) => (a.company || "").localeCompare(b.company || ""));
+  }
+
+  return jobs;
+}
+
+function renderJobs() {
+  const jobs = getFilteredJobs();
+  jobsTbody.innerHTML = "";
+
+  if (jobs.length === 0) {
+    emptyText.style.display = "block";
+    return;
+  }
+
+  emptyText.style.display = "none";
+
+  jobs.forEach((j) => {
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>${j.company}</td>
+      <td>${j.role}</td>
+      <td><span class="badge ${getStatusBadgeClass(j.status)}">${j.status}</span></td>
+      <td>${j.location || "-"}</td>
+      <td>${j.appliedDate ? formatDate(j.appliedDate) : "-"}</td>
+      <td class="right">
+        <div class="actions">
+          <button class="btn btn--ghost" data-action="edit" data-id="${j.id}">Edit</button>
+          <button class="btn btn--danger" data-action="delete" data-id="${j.id}">Delete</button>
+        </div>
+      </td>
+    `;
+
+    jobsTbody.appendChild(tr);
+  });
+}
+
+/* ---------------- Events ---------------- */
 
 openModalBtn.addEventListener("click", () => openModal("add"));
 closeModalBtn.addEventListener("click", closeModal);
@@ -222,102 +194,6 @@ confirmDeleteBtn.addEventListener("click", () => {
   renderJobs();
 });
 
-sortBtn.addEventListener("click", () => {
-  const isClosed = sortMenu.classList.contains("hidden");
-  closeAllDropdowns();
-
-  if (isClosed) {
-    sortMenu.classList.remove("hidden");
-    positionDropdown(sortBtn, sortMenu);
-  }
-});
-
-sortMenu.addEventListener("click", (e) => {
-  const item = e.target.closest(".customSelect_item");
-  if (!item) return;
-
-  const val = item.dataset.sort;
-  if (!val) return;
-
-  sortByValue.value = val;
-  sortValue.textContent = item.textContent;
-
-  sortMenu.classList.add("hidden");
-  renderJobs();
-});
-
-statusBtn.addEventListener("click", () => {
-  const isClosed = statusMenu.classList.contains("hidden");
-  closeAllDropdowns();
-
-  if (isClosed) {
-    statusMenu.classList.remove("hidden");
-    positionDropdown(statusBtn, statusMenu);
-  }
-});
-
-statusMenu.addEventListener("click", (e) => {
-  const item = e.target.closest(".customSelect_item");
-  if (!item) return;
-
-  const st = item.dataset.status;
-  if (!st) return;
-
-  statusInput.value = st;
-  statusValue.textContent = item.textContent;
-
-  statusMenu.classList.add("hidden");
-});
-
-modalStatusBtn.addEventListener("click", () => {
-  const isClosed = modalStatusMenu.classList.contains("hidden");
-  closeAllDropdowns();
-
-  if (isClosed) {
-    modalStatusMenu.classList.remove("hidden");
-    positionDropdown(modalStatusBtn, modalStatusMenu);
-  }
-});
-
-modalStatusMenu.addEventListener("click", (e) => {
-  const item = e.target.closest(".customSelect_item");
-  if (!item) return;
-
-  const st = item.dataset.status;
-  if (!st) return;
-
-  statusInput.value = st;
-  modalStatusValue.textContent = item.textContent;
-
-  modalStatusMenu.classList.add("hidden");
-});
-
-document.addEventListener("click", (e) => {
-  const insideStatus = statusBtn.contains(e.target) || statusMenu.contains(e.target);
-  const insideSort = sortBtn.contains(e.target) || sortMenu.contains(e.target);
-  const insideModalStatus = modalStatusBtn.contains(e.target) || modalStatusMenu.contains(e.target);
-
-  if (!insideStatus && !insideSort && !insideModalStatus) {
-    closeAllDropdowns();
-  }
-});
-
-window.addEventListener("resize", () => {
-  if (!statusMenu.classList.contains("hidden")) positionDropdown(statusBtn, statusMenu);
-  if (!sortMenu.classList.contains("hidden")) positionDropdown(sortBtn, sortMenu);
-  if (!modalStatusMenu.classList.contains("hidden")) positionDropdown(modalStatusBtn, modalStatusMenu);
-});
-
-window.addEventListener(
-  "scroll",
-  () => {
-    if (!statusMenu.classList.contains("hidden")) positionDropdown(statusBtn, statusMenu);
-    if (!sortMenu.classList.contains("hidden")) positionDropdown(sortBtn, sortMenu);
-    if (!modalStatusMenu.classList.contains("hidden")) positionDropdown(modalStatusBtn, modalStatusMenu);
-  },
-  true
-);
-
 jobForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -344,39 +220,85 @@ jobsTbody.addEventListener("click", (e) => {
 
   const action = btn.dataset.action;
   const id = btn.dataset.id;
-
   if (!action || !id) return;
 
+  const job = getjobs().find((j) => j.id === id);
+  if (!job) return;
+
   if (action === "delete") {
-    const job = getjobs().find((j) => j.id === id);
-    if (!job) return;
     openDeleteModal(job);
     return;
   }
 
   if (action === "edit") {
-    const job = getjobs().find((j) => j.id === id);
-    if (!job) return;
-
     modalTitle.textContent = "Edit Application";
     jobIdInput.value = job.id;
 
     companyInput.value = job.company || "";
     roleInput.value = job.role || "";
     statusInput.value = job.status || "Applied";
-    if (modalStatusValue) modalStatusValue.textContent = statusInput.value;
-
     locationInput.value = job.location || "";
     salaryInput.value = job.salary || "";
     appliedDateInput.value = job.appliedDate || "";
     notesInput.value = job.notes || "";
 
     modal.classList.remove("hidden");
-    closeAllDropdowns();
-    return;
   }
 });
 
+function setupCustomSelect(wrapperId, inputId, valueId, menuId, dataKey) {
+  const btn = document.getElementById(wrapperId);
+  const hiddenInput = document.getElementById(inputId);
+  const valueText = document.getElementById(valueId);
+  const menu = document.getElementById(menuId);
+
+  if (!btn || !hiddenInput || !valueText || !menu) return;
+
+  function closeMenu() {
+    menu.classList.add("hidden");
+  }
+
+  function openMenu() {
+    menu.classList.remove("hidden");
+  }
+
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const isClosed = menu.classList.contains("hidden");
+
+    document.querySelectorAll(".customSelect_menu").forEach((m) => {
+      m.classList.add("hidden");
+    });
+
+    if (isClosed) openMenu();
+    else closeMenu();
+  });
+
+  menu.addEventListener("click", (e) => {
+    const item = e.target.closest(".customSelect_item");
+    if (!item) return;
+
+    const val = item.dataset[dataKey];
+    if (!val) return;
+
+    hiddenInput.value = val;
+    valueText.textContent = item.textContent;
+
+    closeMenu();
+    renderJobs(); 
+  });
+
+  document.addEventListener("click", () => {
+    closeMenu();
+  });
+}
+setupCustomSelect("statusBtn", "statusBy", "statusValue", "statusMenu", "status");
+setupCustomSelect("sortBtn", "sortBy", "sortValue", "sortMenu", "sort");
+setupCustomSelect("modalStatusBtn", "status", "modalStatusValue", "modalStatusMenu", "status");
+
+
 searchInput.addEventListener("input", renderJobs);
+statusByValue.addEventListener("change", renderJobs);
+sortByValue.addEventListener("change", renderJobs);
 
 renderJobs();

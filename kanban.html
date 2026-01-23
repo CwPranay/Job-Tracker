@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AplyO | Kanban</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="nav_brand">
+            <div class="logo">A</div>
+            <div>
+                <h1 class="nav_title">AplyO</h1>
+                <p class="nav_subtitle">Master your job search</p>
+            </div>
+        </div>
+
+        <div id="navMenu" class="nav_links">
+            <a id="d" href="/index.html" class="nav_link ">Dashboard</a>
+            <a id="a" href="applications.html" class="nav_link ">Applications</a>
+            <a id="k" href="kanban.html" class="nav_link active">Kanban</a>
+            <a id="s" href="settings.html" class="nav_link">Settings</a>
+        </div>
+    </nav>
+    <main class="container">
+        <section class="card">
+            <div class="card_header">
+                <div>
+                    <h2 style="font-size: 18px;">Kanban Board</h2>
+                    <p class="muted">Drag & drop applications between stages.</p>
+                </div>
+                <a href="./applications.html" style="text-decoration: none;" class="btn btn--primary">+ Add Job</a>
+            </div>
+        </section>
+
+        <section class="kanban mt-16">
+            <div class="kanban_col" data-status="Applied">
+                <div class="kanban_colHeader">
+                    <h3>Applied</h3>
+                    <span class="badge badge--applied" id="countApplied">0</span>
+                </div>
+                <div class="kanban_list" id="listApplied"></div>
+            </div>
+
+            <div class="kanban_col" data-status="Interview">
+                <div class="kanban_colHeader">
+                    <h3>Interview</h3>
+                    <span class="badge badge--interview" id="countInterview">0</span>
+                </div>
+                <div class="kanban_list" id="listInterview"></div>
+            </div>
+
+            <div class="kanban_col" data-status="Offer">
+                <div class="kanban_colHeader">
+                    <h3>Offer</h3>
+                    <span class="badge badge--offer" id="countOffer">0</span>
+                </div>
+                <div class="kanban_list" id="listOffer"></div>
+            </div>
+            <div class="kanban_col" data-status="Rejected">
+                <div class="kanban_colHeader">
+                    <h3>Rejected</h3>
+                    <span class="badge badge--rejected" id="countRejected">0</span>
+                </div>
+                <div class="kanban_list" id="listRejected"></div>
+            </div>
+        </section>
+    </main>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="./js/storage.js"></script>
+    <script src="./js/app.js"></script>
+    <script src="./js/kanban.js"></script>
+
+
+
+
+</body>
+
+</html>
