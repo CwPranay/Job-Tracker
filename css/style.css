@@ -37,14 +37,18 @@ body {
   font-size: 14px;
   line-height: 1.5;
   min-height: 100vh;
+  padding-bottom: 20px;
 }
 
 ::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #333;
   border-radius: 10px;
@@ -54,6 +58,7 @@ body {
   display: none !important;
 }
 
+/* Navigation */
 .nav {
   width: min(1000px, 94%);
   margin: 24px auto 40px;
@@ -89,6 +94,7 @@ body {
   place-items: center;
   font-weight: 700;
   font-size: 14px;
+  flex-shrink: 0;
 }
 
 .nav_title {
@@ -114,6 +120,7 @@ body {
   font-size: 13px;
   font-weight: 500;
   transition: color 0.2s, background 0.2s;
+  white-space: nowrap;
 }
 
 .nav_link:hover {
@@ -127,10 +134,12 @@ body {
   font-weight: 600;
 }
 
+
 .container {
   width: min(1000px, 94%);
   margin: 0 auto 40px;
 }
+
 
 .card {
   background: linear-gradient(180deg, rgba(20, 20, 20, 0.8) 0%, rgba(10, 10, 10, 0.9) 100%);
@@ -153,6 +162,7 @@ body {
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 20px;
+  gap: 12px;
 }
 
 .muted {
@@ -167,6 +177,7 @@ body {
   margin-top: 4px;
   color: #fff;
 }
+
 
 .grid {
   display: grid;
@@ -185,6 +196,7 @@ body {
   margin-top: 24px;
 }
 
+
 .btn {
   appearance: none;
   border: 1px solid var(--border);
@@ -200,6 +212,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  white-space: nowrap;
 }
 
 .btn:hover {
@@ -233,6 +246,7 @@ body {
   border-color: rgba(239, 68, 68, 0.4);
 }
 
+
 .list {
   display: flex;
   flex-direction: column;
@@ -250,6 +264,8 @@ body {
   padding: 16px 20px;
   background: var(--bg-surface);
   transition: background 0.2s;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .item:hover {
@@ -260,17 +276,21 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  flex: 1;
+  min-width: 0;
 }
 
 .item_title {
   font-weight: 500;
   color: #fff;
+  word-wrap: break-word;
 }
 
 .item_meta {
   color: var(--text-muted);
   font-size: 12px;
 }
+
 
 .badge {
   display: inline-flex;
@@ -281,6 +301,7 @@ body {
   font-weight: 500;
   border: 1px solid transparent;
   line-height: 1.4;
+  white-space: nowrap;
 }
 
 .badge--success {
@@ -320,6 +341,7 @@ body {
   text-decoration: line-through;
 }
 
+
 .controls {
   display: grid;
   grid-template-columns: 1fr auto auto;
@@ -328,6 +350,7 @@ body {
   position: relative;
   z-index: 2;
 }
+
 
 .input,
 .textarea {
@@ -339,6 +362,7 @@ body {
   padding: 8px 12px;
   font-size: 13px;
   transition: all 0.2s;
+  font-family: var(--font-sans);
 }
 
 .input:focus,
@@ -352,6 +376,12 @@ body {
   color: #444;
 }
 
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+
 .tableWrap {
   width: 100%;
   overflow-x: auto;
@@ -364,6 +394,7 @@ body {
 .table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 600px;
 }
 
 .table th {
@@ -374,6 +405,7 @@ body {
   font-weight: 500;
   font-size: 12px;
   border-bottom: 1px solid var(--border);
+  white-space: nowrap;
 }
 
 .table td {
@@ -386,6 +418,7 @@ body {
   border-bottom: none;
 }
 
+
 .modal {
   position: fixed;
   inset: 0;
@@ -395,16 +428,20 @@ body {
   place-items: center;
   z-index: 100;
   animation: fadeIn 0.2s ease;
+  padding: 16px;
+  overflow-y: auto;
 }
 
 .modal_box {
-  width: min(600px, 94%);
+  width: min(600px, 100%);
   background: #0a0a0a;
   border: 1px solid #222;
   border-radius: 16px;
   padding: 32px;
   box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.8);
   animation: scaleIn 0.2s ease;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .modal_header {
@@ -412,6 +449,7 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
+  gap: 16px;
 }
 
 .form_grid {
@@ -435,7 +473,9 @@ body {
   margin-top: 24px;
   padding-top: 24px;
   border-top: 1px solid var(--border);
+  flex-wrap: wrap;
 }
+
 
 .toast {
   position: fixed;
@@ -449,7 +489,9 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   z-index: 200;
   animation: slideUp 0.3s ease;
+  max-width: calc(100% - 48px);
 }
+
 
 .customSelect {
   width: 100%;
@@ -468,6 +510,8 @@ body {
   cursor: pointer;
   transition: 0.15s ease;
   height: 40px;
+  font-family: var(--font-sans);
+  font-size: 13px;
 }
 
 .customSelect_btn:hover {
@@ -484,6 +528,7 @@ body {
 .customSelect_menu {
   position: fixed;
   background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(8px);
   border: 1px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
@@ -491,6 +536,7 @@ body {
   z-index: 999999;
   max-height: 220px;
   overflow-y: auto;
+  min-width: 150px;
 }
 
 .customSelect_item {
@@ -504,6 +550,7 @@ body {
   color: var(--text-main);
   cursor: pointer;
   transition: 0.12s ease;
+  font-family: var(--font-sans);
 }
 
 .customSelect_item:hover {
@@ -519,6 +566,7 @@ body {
   color: var(--text-muted);
 }
 
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -527,6 +575,7 @@ body {
     opacity: 1;
   }
 }
+
 @keyframes scaleIn {
   from {
     transform: scale(0.95);
@@ -537,6 +586,7 @@ body {
     opacity: 1;
   }
 }
+
 @keyframes slideUp {
   from {
     transform: translateY(10px);
@@ -548,18 +598,241 @@ body {
   }
 }
 
+
+@media (max-width: 1024px) {
+  .container {
+    width: min(1000px, 92%);
+  }
+
+  .nav {
+    width: min(1000px, 92%);
+  }
+
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
 @media (max-width: 768px) {
+  body {
+    font-size: 13px;
+    padding-bottom: 16px;
+    background-size: 100% 100%, 30px 30px, 30px 30px;
+  }
+
   .nav {
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
     border-radius: 20px;
+    padding: 16px;
+    margin: 16px auto 24px;
+    top: 12px;
+    width: calc(100% - 32px);
   }
+
+  .nav_brand {
+    width: 100%;
+    justify-content: center;
+    padding-left: 0;
+  }
+
+  .nav_links {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .nav_link {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .container {
+    width: calc(100% - 32px);
+    margin: 0 auto 24px;
+  }
+
+  .card {
+    padding: 16px;
+    border-radius: 10px;
+  }
+
+  .card_header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .stat_value {
+    font-size: 20px;
+  }
+
+  .grid {
+    gap: 12px;
+  }
+
   .grid-4,
   .grid-2 {
     grid-template-columns: 1fr;
   }
-  .controls,
+
+  .controls {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .item {
+    padding: 12px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .item_title {
+    font-size: 14px;
+  }
+
+  .item_meta {
+    font-size: 11px;
+  }
+
+  .table {
+    min-width: 500px;
+  }
+
+  .table th,
+  .table td {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+
+  .modal_box {
+    padding: 24px;
+    border-radius: 12px;
+    width: calc(100% - 32px);
+  }
+
+  .modal_header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .form_grid {
     grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .form_actions {
+    justify-content: stretch;
+  }
+
+  .form_actions .btn {
+    flex: 1;
+  }
+
+  .toast {
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+    max-width: none;
+    text-align: center;
+    font-size: 13px;
+  }
+
+  .btn {
+    font-size: 12px;
+    padding: 8px 12px;
+    height: 34px;
+  }
+
+  .input,
+  .textarea {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  .customSelect_btn {
+    font-size: 14px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  body {
+    font-size: 12px;
+  }
+
+  .nav {
+    margin: 12px auto 20px;
+    padding: 12px;
+    width: calc(100% - 24px);
+  }
+
+  .logo {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .nav_title {
+    font-size: 13px;
+  }
+
+  .nav_link {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .container {
+    width: calc(100% - 24px);
+  }
+
+  .card {
+    padding: 14px;
+  }
+
+  .stat_value {
+    font-size: 18px;
+  }
+
+  .muted {
+    font-size: 11px;
+  }
+
+  .item {
+    padding: 10px 12px;
+  }
+
+  .item_title {
+    font-size: 13px;
+  }
+
+  .badge {
+    font-size: 10px;
+    padding: 2px 6px;
+  }
+
+  .modal_box {
+    padding: 20px;
+  }
+
+  .table th,
+  .table td {
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+}
+
+
+@media (max-width: 768px) and (orientation: landscape) {
+  .modal_box {
+    max-height: 80vh;
+  }
+
+  .nav {
+    position: relative;
+    top: 0;
   }
 }
