@@ -85,16 +85,40 @@ body {
 }
 
 .logo {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #fff, #999);
-  color: #000;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #787878 0%, #ffffff 100%);
+  color: #2e2e2e;
   display: grid;
   place-items: center;
-  font-weight: 700;
-  font-size: 14px;
+  font-weight: 800;
+  font-size: 18px;
   flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  letter-spacing: -1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.logo::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.2) 50%, transparent 70%);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) translateY(-100%);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%);
+  }
 }
 
 .nav_title {
@@ -629,18 +653,26 @@ body {
     margin: 16px auto 24px;
     top: 12px;
     width: calc(100% - 32px);
+    position: static;
   }
 
   .nav_brand {
     width: 100%;
     justify-content: center;
     padding-left: 0;
+    gap: 8px;
+  }
+
+  .nav_subtitle {
+    display: block;
+    font-size: 12px;
   }
 
   .nav_links {
     width: 100%;
     justify-content: center;
     flex-wrap: wrap;
+    gap: 6px;
   }
 
   .nav_link {
@@ -665,6 +697,10 @@ body {
     margin-bottom: 16px;
   }
 
+  .card_header button {
+    width: 100%;
+  }
+
   .stat_value {
     font-size: 20px;
   }
@@ -681,6 +717,7 @@ body {
   .controls {
     grid-template-columns: 1fr;
     gap: 8px;
+    flex-direction: column;
   }
 
   .item {
@@ -699,7 +736,14 @@ body {
   }
 
   .table {
-    min-width: 500px;
+    min-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tableWrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .table th,
@@ -712,6 +756,7 @@ body {
     padding: 24px;
     border-radius: 12px;
     width: calc(100% - 32px);
+    max-width: 95vw;
   }
 
   .modal_header {
@@ -726,10 +771,40 @@ body {
 
   .form_actions {
     justify-content: stretch;
+    flex-direction: column-reverse;
+    gap: 8px;
   }
 
   .form_actions .btn {
     flex: 1;
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .btn {
+    min-height: 44px;
+    font-size: 14px;
+  }
+
+  .input,
+  .textarea {
+    min-height: 44px;
+    font-size: 14px;
+  }
+
+  .customSelect_btn {
+    min-height: 44px;
+  }
+
+  .actions {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .actions button {
+    width: 100%;
+    min-height: 40px;
+    font-size: 12px;
   }
 
   .toast {
@@ -768,21 +843,44 @@ body {
     margin: 12px auto 20px;
     padding: 12px;
     width: calc(100% - 24px);
+    gap: 10px;
+    flex-direction: column;
+    border-radius: 16px;
   }
 
   .logo {
-    width: 28px;
-    height: 28px;
-    font-size: 12px;
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+
+  .nav_brand {
+    width: 100%;
+    justify-content: center;
+    padding-left: 0;
   }
 
   .nav_title {
-    font-size: 13px;
+    font-size: 14px;
+  }
+
+  .nav_subtitle {
+    display: block;
+    font-size: 11px;
+  }
+
+  .nav_links {
+    width: 100%;
+    justify-content: center;
+    gap: 6px;
   }
 
   .nav_link {
     padding: 6px 10px;
     font-size: 11px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
   }
 
   .container {
@@ -791,6 +889,20 @@ body {
 
   .card {
     padding: 14px;
+  }
+
+  .card_header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .card_header > div {
+    width: 100%;
+  }
+
+  .card_header button {
+    width: 100%;
   }
 
   .stat_value {
@@ -803,6 +915,7 @@ body {
 
   .item {
     padding: 10px 12px;
+    min-height: 44px;
   }
 
   .item_title {
@@ -816,12 +929,69 @@ body {
 
   .modal_box {
     padding: 20px;
+    width: calc(100% - 40px);
+    max-width: none;
   }
 
   .table th,
   .table td {
     padding: 8px 10px;
     font-size: 11px;
+  }
+
+  .table {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .form_grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form_actions {
+    flex-direction: column-reverse;
+    gap: 8px;
+  }
+
+  .form_actions button {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .btn {
+    min-height: 44px;
+    font-size: 12px;
+  }
+
+  .input,
+  .textarea {
+    min-height: 44px;
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+
+  .customSelect_btn {
+    min-height: 44px;
+  }
+
+  .actions {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .actions button {
+    width: 100%;
+    min-height: 40px;
+    font-size: 11px;
+  }
+
+  .controls {
+    gap: 8px;
+    flex-direction: column;
+  }
+
+  .controls input {
+    width: 100%;
   }
 }
 
