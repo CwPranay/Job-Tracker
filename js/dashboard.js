@@ -29,7 +29,7 @@ function renderRecent() {
     box.innerHTML = ""
 
     if (jobs.length === 0) {
-        box.innerHTML = `<p class="muted">No applications yet. Go to Applications → Add one.</p>`;
+        box.innerHTML = `<p style="margin:10px" class="muted">No applications yet. Go to Applications → Add one.</p>`;
         return;
     }
 
