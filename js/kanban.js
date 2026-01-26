@@ -36,12 +36,14 @@ function makeCard(job) {
 
   card.addEventListener("dragstart", () => {
     draggingJobId = job.id;
+    card.classList.add("dragging");
     card.style.opacity = "0.6";
   });
 
   card.addEventListener("dragend", () => {
     draggingJobId = null;
     card.style.opacity = "1";
+    card.classList.remove("dragging");
     cols.forEach((c) => c.classList.remove("dropActive"));
   });
 
