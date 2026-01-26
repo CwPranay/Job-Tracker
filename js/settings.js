@@ -65,3 +65,27 @@ importBtn.addEventListener("click",()=>{
 
     reader.readAsText(file)
 })
+
+function openResetModal()
+{
+    resetModal.classList.remove("hidden")
+}
+
+function closeResetModal()
+{
+    resetModal.classList.add("hidden")
+}
+
+resetBtn.addEventListener("click", openResetModal);
+closeResetModalBtn.addEventListener("click", closeResetModal);
+cancelResetBtn.addEventListener("click", closeResetModal);
+
+resetModal.addEventListener("click",(e)=>{
+    if(e.target===resetModal) closeResetModal()
+})
+
+confirmResetBtn.addEventListener("click",()=>{
+    localStorage.removeItem("jt_jobs_v1")
+    toast("All data deleted")
+    closeResetModal()
+})
