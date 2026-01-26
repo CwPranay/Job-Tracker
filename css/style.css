@@ -742,3 +742,123 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+.nav_top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  width:100%;
+}
+
+.nav_toggle{
+  display:none;
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,0.04);
+  color:var(--text);
+  font-size:18px;
+  cursor:pointer;
+  transition:0.15s ease;
+}
+
+.nav_toggle:hover{
+  background:rgba(255,255,255,0.06);
+  border-color:var(--border2);
+}
+
+.mobileSidebar{
+  position:fixed;
+  top:0;
+  right:0;
+  height:100vh;
+  width:min(320px, 86vw);
+  background:rgba(14,20,36,0.98);
+  border-right:1px solid var(--border);
+  z-index:999;
+  padding:16px;
+  transform:translateX(110%);
+  transition:0.25s ease;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.mobileSidebar.show{
+  transform:translateX(0);
+}
+
+.mobileSidebar_head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.mobileSidebar_links{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:8px;
+}
+
+.mobileSidebar_links .nav_link{
+  padding:12px 12px;
+  border-radius:12px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+  color:var(--text);
+  text-align:left;
+}
+
+.mobileSidebar_links .nav_link.active{
+  background:rgba(99,102,241,0.92);
+  border-color:rgba(99,102,241,0.92);
+  color:#fff;
+}
+
+.sidebarOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.55);
+  z-index:998;
+}
+
+@media (max-width:768px){
+  .nav{
+    flex-direction:column;
+    align-items:stretch;
+    border-radius:16px;
+    position:static;
+    padding:14px;
+  }
+
+  .nav_toggle{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .nav_links{
+    display:none;
+    flex-direction:column;
+    gap:8px;
+    width:100%;
+    margin-top:10px;
+  }
+
+  .nav_links.show{
+    display:flex;
+  }
+
+  .nav_link{
+    width:100%;
+    text-align:center;
+    padding:12px 10px;
+    border-radius:12px;
+    background:rgba(255,255,255,0.03);
+    border:1px solid var(--border);
+  }
+}

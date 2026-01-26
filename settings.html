@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <nav class="nav">
+     <nav style="display: flex; flex-direction: row;" class="nav">
         <div class="nav_brand">
             <div class="logo">A</div>
             <div>
@@ -17,13 +17,39 @@
                 <p class="nav_subtitle">Master your job search</p>
             </div>
         </div>
-        <div class="nav_links">
-            <a href="index.html" class="nav_link ">Dashboard</a>
-            <a href="applications.html" class="nav_link">Applications</a>
-            <a href="kanban.html" class="nav_link">Kanban</a>
-            <a href="settings.html" class="nav_link active">Settings</a>
+        <button id="openSidebarBtn" class="nav_toggle" aria-label="Toggle menu">
+      ☰
+      </button>
+        <div id="navMenu" class="nav_links">
+            <a id="d" href="/index.html" class="nav_link ">Dashboard</a>
+            <a id="a" href="applications.html" class="nav_link ">Applications</a>
+            <a id="k" href="kanban.html" class="nav_link">Kanban</a>
+            <a id="s" href="settings.html" class="nav_link active">Settings</a>
         </div>
     </nav>
+
+    <div class="mobileSidebar hidden" id="mobileSidebar">
+  <div class="mobileSidebar_head">
+    <div class="nav_brand">
+      <div class="logo">A</div>
+      <div>
+        <h1 class="nav_title">AplyO</h1>
+        <p class="nav_subtitle">Track like a pro</p>
+      </div>
+    </div>
+
+    <button class="nav_menuBtn nav_toggle" id="closeSidebarBtn">✕</button>
+  </div>
+
+  <div class="mobileSidebar_links">
+    <a href="./index.html" class="nav_link ">Dashboard</a>
+    <a href="./applications.html" class="nav_link">Applications</a>
+    <a href="./kanban.html" class="nav_link">Kanban</a>
+    <a href="./settings.html" class="nav_link active">Settings</a>
+  </div>
+</div>
+
+<div class="sidebarOverlay hidden" id="sidebarOverlay"></div>
     <main class="container">
         <section class="card">
             <div class="card_header">
@@ -83,6 +109,7 @@
     <script src="./js/storage.js"></script>
     <script src="./js/app.js"></script>
     <script src="./js/settings.js"></script>
+    <script src="./js/mobileSidebar.js"></script>
 
 </body>
 
