@@ -9,47 +9,47 @@
 </head>
 
 <body>
-   <nav style="display: flex; flex-direction: row;" class="nav">
-        <div class="nav_brand">
-            <div class="logo">A</div>
-            <div>
-                <h1 class="nav_title">AplyO</h1>
-                <p class="nav_subtitle">Master your job search</p>
-            </div>
-        </div>
-        <button id="openSidebarBtn" class="nav_toggle" aria-label="Toggle menu">
-      ☰
-      </button>
-        <div id="navMenu" class="nav_links">
-            <a id="d" href="/index.html" class="nav_link ">Dashboard</a>
-            <a id="a" href="applications.html" class="nav_link active ">Applications</a>
-            <a id="k" href="kanban.html" class="nav_link">Kanban</a>
-            <a id="s" href="settings.html" class="nav_link">Settings</a>
-        </div>
-    </nav>
-
-    <div class="mobileSidebar hidden" id="mobileSidebar">
-  <div class="mobileSidebar_head">
+  <nav style="display: flex; flex-direction: row;" class="nav">
     <div class="nav_brand">
       <div class="logo">A</div>
       <div>
         <h1 class="nav_title">AplyO</h1>
-        <p class="nav_subtitle">Track like a pro</p>
+        <p class="nav_subtitle">Master your job search</p>
       </div>
     </div>
+    <button id="openSidebarBtn" class="nav_toggle" aria-label="Toggle menu">
+      ☰
+    </button>
+    <div id="navMenu" class="nav_links">
+      <a id="d" href="/index.html" class="nav_link ">Dashboard</a>
+      <a id="a" href="applications.html" class="nav_link active ">Applications</a>
+      <a id="k" href="kanban.html" class="nav_link">Kanban</a>
+      <a id="s" href="settings.html" class="nav_link">Settings</a>
+    </div>
+  </nav>
 
-    <button class="nav_menuBtn nav_toggle" id="closeSidebarBtn">✕</button>
+  <div class="mobileSidebar hidden" id="mobileSidebar">
+    <div class="mobileSidebar_head">
+      <div class="nav_brand">
+        <div class="logo">A</div>
+        <div>
+          <h1 class="nav_title">AplyO</h1>
+          <p class="nav_subtitle">Track like a pro</p>
+        </div>
+      </div>
+
+      <button class="nav_menuBtn nav_toggle" id="closeSidebarBtn">✕</button>
+    </div>
+
+    <div class="mobileSidebar_links">
+      <a href="./index.html" class="nav_link ">Dashboard</a>
+      <a href="./applications.html" class="nav_link active">Applications</a>
+      <a href="./kanban.html" class="nav_link">Kanban</a>
+      <a href="./settings.html" class="nav_link">Settings</a>
+    </div>
   </div>
 
-  <div class="mobileSidebar_links">
-    <a href="./index.html" class="nav_link ">Dashboard</a>
-    <a href="./applications.html" class="nav_link active">Applications</a>
-    <a href="./kanban.html" class="nav_link">Kanban</a>
-    <a href="./settings.html" class="nav_link">Settings</a>
-  </div>
-</div>
-
-<div class="sidebarOverlay hidden" id="sidebarOverlay"></div>
+  <div class="sidebarOverlay hidden" id="sidebarOverlay"></div>
 
   <main class="container">
     <section class="card">
@@ -58,50 +58,76 @@
           <h2 style="font-size: 18px;">Applications</h2>
           <p class="muted">Add, update, filter and manage your job applications</p>
         </div>
-        <button id="openModalBtn" class="btn btn--primary">+ Add Application</button>
+        <div style="display: flex; gap: 10px; flex-wrap:wrap;">
+          <button id="openQuickAddBtn" class="btn btn--ghost"> Quick Add</button>
+
+          <button id="openModalBtn" class="btn btn--primary">+ Add Application</button>
+        </div>
       </div>
+
+      <div id="quickAddModal" class="modal hidden">
+        <div class="modal_box">
+          <div class="modal_header">
+            <h3>Quick Add</h3>
+            <button id="closeQuickAddBtn" class="btn btn--ghost">✕</button>
+          </div>
+
+          <p class="muted" style="margin-bottom:10px;">
+            Type like a message. Example: <b>Applied TCS Frontend Mumbai 2026-01-12</b>
+          </p>
+
+          <textarea id="quickAddInput" class="input textarea" rows="4"
+            placeholder="e.g. Interview Infosys Web Intern Remote"></textarea>
+
+          <div class="form_actions">
+            <button id="cancelQuickAddBtn" class="btn btn--ghost">Cancel</button>
+            <button id="submitQuickAddBtn" class="btn btn--primary">Add</button>
+          </div>
+        </div>
+      </div>
+
 
       <div class="controls">
         <input id="searchInput" type="text" placeholder="Search by company or role..." class="input" />
 
         <div class="customSelect">
-           
-
-            <button type="button" id="statusBtn" class="input customSelect_btn">
-              <span id="statusValue">All </span>
-              <span class="customSelect_arrow"> ▼</span>
-
-            </button>
-
-            <div id="statusMenu" class="customSelect_menu hidden">
-              <button type="button" class="customSelect_item" data-status="All">All</button>
-              <button type="button" class="customSelect_item" data-status="Applied">Applied</button>
-              <button type="button" class="customSelect_item" data-status="Interview">Interview</button>
-              <button type="button" class="customSelect_item" data-status="Offer">Offer</button>
-              <button type="button" class="customSelect_item" data-status="Rejected">Rejected</button>
-            </div>
 
 
-            <input type="hidden" id="statusBy" value="All" />
+          <button type="button" id="statusBtn" class="input customSelect_btn">
+            <span id="statusValue">All </span>
+            <span class="customSelect_arrow"> ▼</span>
 
+          </button>
+
+          <div id="statusMenu" class="customSelect_menu hidden">
+            <button type="button" class="customSelect_item" data-status="All">All</button>
+            <button type="button" class="customSelect_item" data-status="Applied">Applied</button>
+            <button type="button" class="customSelect_item" data-status="Interview">Interview</button>
+            <button type="button" class="customSelect_item" data-status="Offer">Offer</button>
+            <button type="button" class="customSelect_item" data-status="Rejected">Rejected</button>
           </div>
 
 
-      <div class="customSelect">
-  <button type="button" id="sortBtn" class="customSelect_btn">
-    <span id="sortValue">Sort: Newest</span>
-    <span class="customSelect_arrow">▼</span>
-  </button>
+          <input type="hidden" id="statusBy" value="All" />
 
-  <div id="sortMenu" class="customSelect_menu hidden">
-    <button type="button" class="customSelect_item" data-sort="newest">Sort: Newest</button>
-    <button type="button" class="customSelect_item" data-sort="oldest">Sort: Oldest</button>
-    <button type="button" class="customSelect_item" data-sort="company">Sort: Company A-Z</button>
-  </div>
+        </div>
 
-  
-  <input type="hidden" id="sortBy" value="newest" />
-</div>
+
+        <div class="customSelect">
+          <button type="button" id="sortBtn" class="customSelect_btn">
+            <span id="sortValue">Sort: Newest</span>
+            <span class="customSelect_arrow">▼</span>
+          </button>
+
+          <div id="sortMenu" class="customSelect_menu hidden">
+            <button type="button" class="customSelect_item" data-sort="newest">Sort: Newest</button>
+            <button type="button" class="customSelect_item" data-sort="oldest">Sort: Oldest</button>
+            <button type="button" class="customSelect_item" data-sort="company">Sort: Company A-Z</button>
+          </div>
+
+
+          <input type="hidden" id="sortBy" value="newest" />
+        </div>
 
       </div>
     </section>

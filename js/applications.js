@@ -29,6 +29,13 @@ const searchInput = document.getElementById("searchInput");
 const statusByValue = document.getElementById("statusBy");
 const sortByValue = document.getElementById("sortBy");
 
+const openQuickAddBtn = document.getElementById("openQuickAddBtn");
+const quickAddModal = document.getElementById("quickAddModal");
+const closeQuickAddBtn = document.getElementById("closeQuickAddBtn");
+const cancelQuickAddBtn = document.getElementById("cancelQuickAddBtn");
+const submitQuickAddBtn = document.getElementById("submitQuickAddBtn");
+const quickAddInput = document.getElementById("quickAddInput");
+
 let deleteTargetId = null;
 
 function openModal(mode = "add") {
@@ -166,7 +173,7 @@ function renderJobs() {
   });
 }
 
-/* ---------------- Events ---------------- */
+
 
 openModalBtn.addEventListener("click", () => openModal("add"));
 closeModalBtn.addEventListener("click", closeModal);
@@ -285,7 +292,7 @@ function setupCustomSelect(wrapperId, inputId, valueId, menuId, dataKey) {
     valueText.textContent = item.textContent;
 
     closeMenu();
-    renderJobs(); 
+    renderJobs();
   });
 
   document.addEventListener("click", () => {
@@ -301,4 +308,197 @@ searchInput.addEventListener("input", renderJobs);
 statusByValue.addEventListener("change", renderJobs);
 sortByValue.addEventListener("change", renderJobs);
 
+function openQuickAddModal() {
+  quickAddModal.classList.remove("hidden")
+  quickAddInput.value = ""
+  setTimeout(() => {
+    quickAddInput.focus()
+  }, 50);
+
+}
+
+function closeQuickAddModal() {
+  quickAddModal.classList.add("hidden");
+}
+
+function detectStatus(text) {
+  const t = text.toLowerCase();
+
+  if (t.includes("interview")) return "Interview";
+  if (t.includes("offer")) return "Offer";
+  if (t.includes("reject")) return "Rejected";
+  if (t.includes("applied") || t.includes("apply")) return "Applied";
+
+  return "Applied";
+}
+
+function extractDate(text) {
+  // yyyy-mm-dd
+  let match = text.match(/\d{4}-\d{2}-\d{2}/);
+  if (match) return match[0];
+
+  // mm/dd/yyyy
+  match = text.match(/\d{1,2}\/\d{1,2}\/\d{4}/);
+  if (match) return match[0];
+
+  return "";
+}
+
+
+function smartParseJob(message) {
+  const clean = message.trim()
+  const status = detectStatus(clean)
+  const appliedDate = extractDate(clean)
+
+  let text = clean
+    .replace(/\d{4}-\d{2}-\d{2}/g, "")
+    .replace(/\d{1,2}\/\d{1,2}\/\d{4}/g, "")
+    .replace(/applied|apply|interview|offer|rejected|reject/gi, "")
+    .trim();
+
+  let salary = "";
+  const salaryMatch = text.match(/(\d+(\.\d+)?\s?(lpa|lakh|k|kpm|per month|per annum))/i);
+  if (salaryMatch) {
+    salary = salaryMatch[0];
+    text = text.replace(salaryMatch[0], "").trim();
+  }
+
+  text = text.replace(/[,]+/g, " ").replace(/\s+/g, " ").trim();
+
+  if (text.includes("|")) {
+    const parts = text.split("|").map((x) => x.trim()).filter(Boolean);
+
+    return {
+      company: (parts[0] || "").toUpperCase(),
+      role: parts[1] || "Unknown Role",
+      location: parts[2] || "-",
+      salary: salary || "",
+      appliedDate: appliedDate || "",
+      status,
+      notes: "Added via Quick Add",
+    };
+  }
+
+  const words = text.split(" ").filter(Boolean);
+
+  const locations = [
+    "remote", "onsite", "hybrid",
+    "mumbai", "pune", "bangalore", "bengaluru",
+    "hyderabad", "delhi", "noida", "gurgaon", "chennai", "kolkata",
+    "india"
+  ];
+
+  let location = "-";
+  let locIndex = words.findIndex((w) => locations.includes(w.toLowerCase()));
+  let beforeLocation = words;
+  if (locIndex !== -1) {
+    location = words[locIndex];
+    beforeLocation = words.slice(0, locIndex);
+  }
+
+  const roleKeywords = [
+    "developer", "engineer", "intern", "designer", "analyst",
+    "tester", "qa", "consultant", "manager", "lead", "architect",
+    "sde", "sdet"
+  ];
+
+  const roleIndex = beforeLocation.findIndex((w) =>
+    roleKeywords.includes(w.toLowerCase())
+  );
+
+  let company = "";
+  let role = "";
+
+  if (roleIndex !== -1) {
+    const roleWord = beforeLocation[roleIndex].toLowerCase();
+
+    // Special handling for SDE / SDET
+    if (roleWord === "sde" || roleWord === "sdet") {
+      role = beforeLocation[roleIndex];
+      company = beforeLocation.slice(0, roleIndex).join(" ");
+    } else {
+      // normal roles like "full stack developer"
+      const roleStart = Math.max(0, roleIndex - 2);
+      role = beforeLocation.slice(roleStart, roleIndex + 1).join(" ");
+      company = beforeLocation.slice(0, roleStart).join(" ");
+    }
+  }
+  else {
+
+    if (beforeLocation.length >= 3) {
+      company = beforeLocation.slice(0, 2).join(" ");
+      role = beforeLocation.slice(2).join(" ");
+    } else {
+      company = beforeLocation[0] || "";
+      role = beforeLocation.slice(1).join(" ");
+    }
+  }
+
+  return {
+    company: company ? company.toUpperCase() : "",
+    role: role || "Unknown Role",
+    status,
+    location: location || "-",
+    salary: salary || "",
+    appliedDate,
+    notes: "Added via Quick Add",
+  };
+}
+
+function submitQuickAdd() {
+  const msg = quickAddInput.value.trim()
+  if (!msg) {
+    toast("Type something first")
+    return
+  }
+
+  const data = smartParseJob(msg)
+
+  if (!data.company || data.role < 3) {
+    toast('Try : "Applied TCS Frontend Mumbai 2026-01-12"')
+    return
+  }
+
+
+  const newJob = {
+    id: generateId(),
+    ...data,
+    createdAt: Date.now()
+  };
+
+  addJob(newJob)
+  toast("Added ");
+  closeQuickAddModal();
+  renderJobs();
+}
+
+if (openQuickAddBtn) openQuickAddBtn.addEventListener("click", openQuickAddModal);
+if (closeQuickAddBtn) closeQuickAddBtn.addEventListener("click", closeQuickAddModal);
+if (cancelQuickAddBtn) cancelQuickAddBtn.addEventListener("click", closeQuickAddModal);
+
+if (submitQuickAddBtn) submitQuickAddBtn.addEventListener("click", submitQuickAdd);
+
+if (quickAddModal) {
+  quickAddModal.addEventListener("click", (e) => {
+    if (e.target === quickAddModal) closeQuickAddModal();
+  });
+}
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && quickAddModal && !quickAddModal.classList.contains("hidden")) {
+    closeQuickAddModal();
+  }
+});
+
+if (quickAddInput) {
+  quickAddInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      submitQuickAdd();
+    }
+  });
+}
+
 renderJobs();
+
+
