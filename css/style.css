@@ -671,7 +671,7 @@ body {
     border-color: rgba(99, 102, 241, 0.92);
   }
 
-  .grid-4,
+  
   .grid-2 {
     grid-template-columns: 1fr;
   }
@@ -886,6 +886,7 @@ body {
     display: grid;
     gap: 12px;
   }
+  
 }
 
 
