@@ -862,3 +862,69 @@ body {
     border:1px solid var(--border);
   }
 }
+
+.desktopOnly {
+  display: block;
+}
+
+.mobileOnly {
+  display: none;
+}
+
+
+@media (max-width: 768px) {
+  .desktopOnly {
+    display: none;
+  }
+
+  .mobileOnly {
+    display: grid;
+    gap: 12px;
+  }
+}
+
+
+.jobsCards {
+  margin-top: 4px;
+}
+
+.jobCard {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.03);
+  padding: 12px;
+}
+
+.jobCard_top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.jobCard_company {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.jobCard_role {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.jobCard_meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.jobCard_actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+

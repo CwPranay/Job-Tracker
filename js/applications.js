@@ -173,6 +173,67 @@ function renderJobs() {
   });
 }
 
+function renderMobileCards() {
+  const jobs = getFilteredJobs();
+  const container = document.getElementById("jobsCards");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  if (jobs.length === 0) return;
+
+  jobs.forEach((j) => {
+    const div = document.createElement("div");
+    div.className = "jobCard";
+
+    div.innerHTML = `
+      <div class="jobCard_top">
+        <div>
+          <div class="jobCard_company">${j.company}</div>
+          <div class="jobCard_role">${j.role}</div>
+        </div>
+        <span class="badge ${getStatusBadgeClass(j.status)}">${j.status}</span>
+      </div>
+
+      <div class="jobCard_meta">
+        <span>📍 ${j.location || "-"}</span>
+        <span>📅 ${j.appliedDate ? formatDate(j.appliedDate) : "-"}</span>
+      </div>
+
+      <div class="jobCard_actions">
+        <button class="btn btn--ghost" data-action="edit" data-id="${j.id}">Edit</button>
+        <button class="btn btn--danger" data-action="delete" data-id="${j.id}">Delete</button>
+      </div>
+    `;
+
+    container.appendChild(div);
+  });
+}
+document.getElementById("jobsCards").addEventListener("click", (e) => {
+  const btn = e.target.closest("button");
+  if (!btn) return;
+
+  const action = btn.dataset.action;
+  const id = btn.dataset.id;
+  if (!action || !id) return;
+
+  const job = getjobs().find((j) => j.id === id);
+  if (!job) return;
+
+  if (action === "delete") openDeleteModal(job);
+  if (action === "edit") {
+    modalTitle.textContent = "Edit Application";
+    jobIdInput.value = job.id;
+    companyInput.value = job.company || "";
+    roleInput.value = job.role || "";
+    statusInput.value = job.status || "Applied";
+    locationInput.value = job.location || "";
+    salaryInput.value = job.salary || "";
+    appliedDateInput.value = job.appliedDate || "";
+    notesInput.value = job.notes || "";
+    modal.classList.remove("hidden");
+  }
+});
 
 
 openModalBtn.addEventListener("click", () => openModal("add"));
@@ -199,6 +260,8 @@ confirmDeleteBtn.addEventListener("click", () => {
   toast("Deleted ✅");
   closeDeleteModal();
   renderJobs();
+  renderMobileCards();
+
 });
 
 jobForm.addEventListener("submit", (e) => {
@@ -219,6 +282,8 @@ jobForm.addEventListener("submit", (e) => {
 
   closeModal();
   renderJobs();
+  renderMobileCards();
+
 });
 
 jobsTbody.addEventListener("click", (e) => {
@@ -293,6 +358,8 @@ function setupCustomSelect(wrapperId, inputId, valueId, menuId, dataKey) {
 
     closeMenu();
     renderJobs();
+    renderMobileCards();
+
   });
 
   document.addEventListener("click", () => {
@@ -470,6 +537,8 @@ function submitQuickAdd() {
   toast("Added ");
   closeQuickAddModal();
   renderJobs();
+  renderMobileCards();
+
 }
 
 if (openQuickAddBtn) openQuickAddBtn.addEventListener("click", openQuickAddModal);
@@ -500,5 +569,4 @@ if (quickAddInput) {
 }
 
 renderJobs();
-
-
+renderMobileCards();
