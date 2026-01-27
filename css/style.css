@@ -633,6 +633,9 @@ body {
     position: static;
   }
 
+  
+  
+
   .nav_brand {
     justify-content: flex-start;
     padding-left: 0;
@@ -690,7 +693,7 @@ body {
   }
 
   .card_header {
-    flex-direction: column;
+    
     align-items: flex-start;
   }
 }
@@ -703,6 +706,8 @@ body {
   .container {
     width: calc(100% - 24px);
   }
+
+  
 
   .nav {
     width: calc(100% - 24px);
