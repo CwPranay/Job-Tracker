@@ -23,7 +23,7 @@ function renderStats() {
 }
 
 function renderRecent() {
-    const jobs = getjobs().slice(0, 6)
+    const jobs = getjobs().slice(0, 4)
     const box = document.getElementById("recentList")
 
     box.innerHTML = ""

@@ -542,10 +542,14 @@ body {
 
 .kanban_col {
   border: 1px solid var(--border);
+  
   border-radius: 16px;
   background: rgba(14, 20, 36, 0.92);
   padding: 14px;
-  min-height: 420px;
+  height: 420px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .kanban_colHeader {
@@ -557,11 +561,17 @@ body {
 }
 
 .kanban_list {
-  display: grid;
+ display: grid;
   gap: 10px;
-  min-height: 280px;
+  overflow-y: auto;
   padding-bottom: 6px;
+  scrollbar-gutter: stable;
 }
+
+.kanban_list::-webkit-scrollbar {
+  width: 6px;
+}
+
 
 .kcard {
   border: 1px solid var(--border);
