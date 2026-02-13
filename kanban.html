@@ -6,10 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AplyO | Kanban</title>
     <link rel="stylesheet" href="./css/style.css">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YG2QCQYEGL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-YG2QCQYEGL');
+    </script>
+
 </head>
 
 <body>
-     <nav style="display: flex; flex-direction: row;" class="nav">
+    <nav style="display: flex; flex-direction: row;" class="nav">
         <div class="nav_brand">
             <div class="logo">A</div>
             <div>
@@ -18,8 +27,8 @@
             </div>
         </div>
         <button id="openSidebarBtn" class="nav_toggle" aria-label="Toggle menu">
-      ☰
-      </button>
+            ☰
+        </button>
         <div id="navMenu" class="nav_links">
             <a id="d" href="/index.html" class="nav_link ">Dashboard</a>
             <a id="a" href="applications.html" class="nav_link ">Applications</a>
@@ -29,27 +38,27 @@
     </nav>
 
     <div class="mobileSidebar hidden" id="mobileSidebar">
-  <div class="mobileSidebar_head">
-    <div class="nav_brand">
-      <div class="logo">A</div>
-      <div>
-        <h1 class="nav_title">AplyO</h1>
-        <p class="nav_subtitle">Track like a pro</p>
-      </div>
+        <div class="mobileSidebar_head">
+            <div class="nav_brand">
+                <div class="logo">A</div>
+                <div>
+                    <h1 class="nav_title">AplyO</h1>
+                    <p class="nav_subtitle">Track like a pro</p>
+                </div>
+            </div>
+
+            <button class="nav_menuBtn nav_toggle" id="closeSidebarBtn">✕</button>
+        </div>
+
+        <div class="mobileSidebar_links">
+            <a href="./index.html" class="nav_link ">Dashboard</a>
+            <a href="./applications.html" class="nav_link">Applications</a>
+            <a href="./kanban.html" class="nav_link active">Kanban</a>
+            <a href="./settings.html" class="nav_link">Settings</a>
+        </div>
     </div>
 
-    <button class="nav_menuBtn nav_toggle" id="closeSidebarBtn">✕</button>
-  </div>
-
-  <div class="mobileSidebar_links">
-    <a href="./index.html" class="nav_link ">Dashboard</a>
-    <a href="./applications.html" class="nav_link">Applications</a>
-    <a href="./kanban.html" class="nav_link active">Kanban</a>
-    <a href="./settings.html" class="nav_link">Settings</a>
-  </div>
-</div>
-
-<div class="sidebarOverlay hidden" id="sidebarOverlay"></div>
+    <div class="sidebarOverlay hidden" id="sidebarOverlay"></div>
     <main class="container">
         <section class="card">
             <div class="card_header">
